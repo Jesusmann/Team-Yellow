@@ -1,21 +1,13 @@
 server {
-     listen   80; ## listen for ipv4; this line is default and implied
+  listen                *:80;
+  server_name           {{serverName}}.sangm.io;
 
-     root {{nginxDirectory}};
-     index index.html index.htm;
+  index  index.html index.htm index.php;
 
-     server_name {{serverName}}.ares.sangm.net;
+  access_log            /var/log/nginx/sangm.io.access.log;
+  error_log             /var/log/nginx/sangm.io.error.log;
 
-     location / {
-        try_files $uri $uri/ /index.html;
-     }
-
-     location /doc/ {
-     alias /usr/share/doc/;
-         autoindex on;
-         allow 127.0.0.1;
-         allow ::1;
-         deny all;
-     }
-     error_page 404 /404.html;
+  location / {
+    root      {{nginxDirectory}};
+  }
 }
